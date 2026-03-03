@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { parseArgs } from 'node:util'
-import { connectSidecar } from './index.js'
+import { connectSidecar } from './index'
 
 function printUsage(): void {
   console.log(`Usage: coop-mcp-sidecar [options] [-- command [args...]]

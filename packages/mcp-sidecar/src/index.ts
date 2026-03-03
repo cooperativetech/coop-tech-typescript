@@ -1,9 +1,9 @@
-export { Sidecar } from './sidecar.js'
-export type { SidecarConfig } from './sidecar.js'
-export type { ToolInfo } from './types.js'
+export { Sidecar } from './sidecar'
+export type { SidecarConfig } from './sidecar'
+export * from './types'
 
-import type { SidecarConfig } from './sidecar.js'
-import { Sidecar } from './sidecar.js'
+import type { SidecarConfig } from './sidecar'
+import { Sidecar } from './sidecar'
 
 /**
  * Connect an MCP server to coop.tech as a sidecar.

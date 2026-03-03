@@ -4,7 +4,7 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import type { ToolInfo, ServerMessage, ToolCallMessage } from './types.js'
+import type { ToolInfo, ServerMessage, ToolCallMessage } from './types'
 
 const require = createRequire(import.meta.url)
 const { version: packageVersion } = require('../package.json') as { version: string }

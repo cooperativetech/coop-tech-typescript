@@ -1,10 +1,16 @@
 {
   "name": "@coop-tech/mcp-sidecar",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Connect MCP servers to coop.tech as sidecars",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "bin": {
     "coop-mcp-sidecar": "dist/cli.js"
   },

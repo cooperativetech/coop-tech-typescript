@@ -6,7 +6,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "coop-mcp-sidecar": "./dist/cli.js"
+    "coop-mcp-sidecar": "dist/cli.js"
   },
   "files": [
     "dist"
@@ -33,7 +33,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/cooperativetech/coop-tech-typescript.git",
+    "url": "git+https://github.com/cooperativetech/coop-tech-typescript.git",
     "directory": "packages/mcp-sidecar"
   },
   "license": "MIT"

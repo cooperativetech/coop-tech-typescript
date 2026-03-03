@@ -49,10 +49,12 @@ COOP_TECH_TOKEN=YOUR_TOKEN coop-mcp-sidecar --description "My server" -- python 
 |--------|-------------|
 | `--token <token>` | Personal access token (or `COOP_TECH_TOKEN` env var) |
 | `--url <url>` | Server URL (default: `wss://coop.tech/mcp-sidecar`) |
+| `--command <cmd>` | MCP server command to spawn (or use `--` separator) |
 | `--description <text>` | Description of the server (required) |
 | `--instructions <text>` | Additional instructions for the agent |
 | `--name <name>` | Override server name |
 | `--version <version>` | Override server version |
+| `--tool-timeout <ms>` | Tool call timeout in ms (default: 60000, max: 1 hour) |
 | `--verbose` | Log full tool call arguments and results |
 | `--quiet` | Suppress all logs |
 

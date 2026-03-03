@@ -56,7 +56,7 @@ COOP_TECH_TOKEN=YOUR_TOKEN coop-mcp-sidecar --description "My server" -- python 
 | `--version <version>` | Override server version |
 | `--tool-timeout <ms>` | Tool call timeout in ms (default: 60000, max: 1 hour) |
 | `--verbose` | Log full tool call arguments and results |
-| `--quiet` | Suppress all logs |
+| `--quiet` | Suppress tool call and discovery logs |
 
 ## API
 
@@ -72,5 +72,8 @@ Creates and connects a sidecar. Config options:
 - **`name`** / **`version`** - override server name/version
 - **`instructions`** - additional agent instructions
 - **`logLevel`** - `'normal'` | `'verbose'` | `'quiet'`
+- **`toolTimeoutMs`** - tool call timeout in ms (default: `60000`, max: 1 hour)
 - **`reconnect`** - auto-reconnect on disconnect (default: `true`)
+- **`reconnectIntervalMs`** - ms between reconnection attempts (default: `5000`)
+- **`heartbeatIntervalMs`** - ms between heartbeat pings (default: `30000`)
 - **`onConnect`** / **`onDisconnect`** / **`onError`** - lifecycle callbacks

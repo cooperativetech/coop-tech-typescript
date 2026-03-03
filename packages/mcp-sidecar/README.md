@@ -13,6 +13,7 @@ npm install @coop-tech/mcp-sidecar
 Connect an in-process MCP server:
 
 ```ts
+import { z } from 'zod'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { connectSidecar } from '@coop-tech/mcp-sidecar'
 

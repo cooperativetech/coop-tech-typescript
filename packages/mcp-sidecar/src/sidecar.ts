@@ -12,6 +12,7 @@ const { version: packageVersion } = require('../package.json') as { version: str
 const DEFAULT_URL = 'wss://coop.tech/mcp-sidecar'
 const DEFAULT_RECONNECT_INTERVAL_MS = 5000
 const DEFAULT_HEARTBEAT_INTERVAL_MS = 30000
+const DEFAULT_TOOL_TIMEOUT_MS = 60000
 
 export interface SidecarConfig {
   // Connection to coop.tech
@@ -38,6 +39,7 @@ export interface SidecarConfig {
   reconnect?: boolean
   reconnectIntervalMs?: number
   heartbeatIntervalMs?: number
+  toolTimeoutMs?: number // default: 60s, max: 1 hour
   onConnect?: () => void
   onDisconnect?: () => void
   onError?: (error: Error) => void
@@ -49,7 +51,7 @@ function truncate(str: string, max: number): string {
 }
 
 export class Sidecar {
-  private config: Required<Pick<SidecarConfig, 'token' | 'url' | 'reconnect' | 'reconnectIntervalMs' | 'heartbeatIntervalMs'>> & SidecarConfig
+  private config: Required<Pick<SidecarConfig, 'token' | 'url' | 'reconnect' | 'reconnectIntervalMs' | 'heartbeatIntervalMs' | 'toolTimeoutMs'>> & SidecarConfig
   private logLevel: 'normal' | 'verbose' | 'quiet'
   private mcpClient: Client | null = null
   private ws: WebSocket | null = null
@@ -71,6 +73,7 @@ export class Sidecar {
       reconnect: config.reconnect ?? true,
       reconnectIntervalMs: config.reconnectIntervalMs ?? DEFAULT_RECONNECT_INTERVAL_MS,
       heartbeatIntervalMs: config.heartbeatIntervalMs ?? DEFAULT_HEARTBEAT_INTERVAL_MS,
+      toolTimeoutMs: config.toolTimeoutMs ?? DEFAULT_TOOL_TIMEOUT_MS,
     }
     this.logLevel = config.logLevel ?? 'normal'
   }
@@ -160,6 +163,7 @@ export class Sidecar {
           tools: this.tools,
           version: this.serverVersion,
           sdkVersion: packageVersion,
+          toolTimeoutMs: this.config.toolTimeoutMs,
         }))
       })
 
@@ -239,7 +243,7 @@ export class Sidecar {
       const result = await this.mcpClient.callTool({
         name: msg.name,
         arguments: msg.arguments,
-      })
+      }, undefined, { timeout: this.config.toolTimeoutMs })
 
       const content = Array.isArray(result.content)
         ? (result.content as Array<{ type: string; text: string }>)

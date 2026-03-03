@@ -8,6 +8,7 @@ export interface AuthMessage {
   tools: ToolInfo[]
   version: string
   sdkVersion: string
+  toolTimeoutMs: number
 }
 
 export interface ToolResultMessage {

@@ -14,6 +14,7 @@ Options:
   --instructions <text>       Additional instructions for the agent
   --name <name>               Override the server name reported to coop.tech
   --version <version>         Override the server version reported to coop.tech
+  --tool-timeout <ms>         Tool call timeout in ms (default: 60000)
   --verbose                   Log full tool call arguments and results
   --quiet                     Suppress all tool call and connection logs
   --help                      Show this help message
@@ -43,6 +44,7 @@ async function main(): Promise<void> {
       instructions: { type: 'string' },
       name: { type: 'string' },
       version: { type: 'string' },
+      'tool-timeout': { type: 'string' },
       verbose: { type: 'boolean' },
       quiet: { type: 'boolean' },
       help: { type: 'boolean', short: 'h' },
@@ -88,6 +90,8 @@ async function main(): Promise<void> {
     console.log(`[coop-sidecar] Starting MCP server: ${command} ${commandArgs.join(' ')}`)
   }
 
+  const toolTimeoutMs = values['tool-timeout'] ? Number(values['tool-timeout']) : undefined
+
   const sidecar = await connectSidecar({
     token,
     url,
@@ -97,6 +101,7 @@ async function main(): Promise<void> {
     instructions: values.instructions,
     name: values.name,
     version: values.version,
+    toolTimeoutMs,
     logLevel,
     reconnect: true,
     onConnect: () => console.log('[coop-sidecar] Connected to coop.tech'),

@@ -103,7 +103,6 @@ async function main(): Promise<void> {
     version: values.version,
     toolTimeoutMs,
     logLevel,
-    reconnect: true,
     onConnect: () => console.log('[coop-sidecar] Connected to coop.tech'),
     onDisconnect: () => console.log('[coop-sidecar] Disconnected from coop.tech'),
     onError: (err) => console.error('[coop-sidecar] Error:', err.message),

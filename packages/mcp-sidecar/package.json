@@ -1,6 +1,6 @@
 {
   "name": "@coop-tech/mcp-sidecar",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Connect MCP servers to coop.tech as sidecars",
   "type": "module",
   "main": "./dist/index.js",

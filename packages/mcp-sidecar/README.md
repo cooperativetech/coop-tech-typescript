@@ -74,7 +74,4 @@ Creates and connects a sidecar. Config options:
 - **`instructions`** - additional agent instructions
 - **`logLevel`** - `'normal'` | `'verbose'` | `'quiet'`
 - **`toolTimeoutMs`** - tool call timeout in ms (default: `60000`, max: 1 hour)
-- **`reconnect`** - auto-reconnect on disconnect (default: `true`)
-- **`reconnectIntervalMs`** - ms between reconnection attempts (default: `5000`)
-- **`heartbeatIntervalMs`** - ms between heartbeat pings (default: `30000`)
 - **`onConnect`** / **`onDisconnect`** / **`onError`** - lifecycle callbacks

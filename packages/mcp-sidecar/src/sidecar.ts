@@ -10,8 +10,8 @@ const require = createRequire(import.meta.url)
 const { version: packageVersion } = require('../package.json') as { version: string }
 
 const DEFAULT_URL = 'wss://coop.tech/mcp-sidecar'
-const DEFAULT_RECONNECT_INTERVAL_MS = 5000
-const DEFAULT_HEARTBEAT_INTERVAL_MS = 30000
+const RECONNECT_INTERVAL_MS = 5000
+const HEARTBEAT_INTERVAL_MS = 30000
 const DEFAULT_TOOL_TIMEOUT_MS = 60000
 
 export interface SidecarConfig {
@@ -36,9 +36,6 @@ export interface SidecarConfig {
 
   // Options
   logLevel?: 'normal' | 'verbose' | 'quiet'
-  reconnect?: boolean
-  reconnectIntervalMs?: number
-  heartbeatIntervalMs?: number
   toolTimeoutMs?: number // default: 60s, max: 1 hour
   onConnect?: () => void
   onDisconnect?: () => void
@@ -51,12 +48,13 @@ function truncate(str: string, max: number): string {
 }
 
 export class Sidecar {
-  private config: Required<Pick<SidecarConfig, 'token' | 'url' | 'reconnect' | 'reconnectIntervalMs' | 'heartbeatIntervalMs' | 'toolTimeoutMs'>> & SidecarConfig
+  private config: Required<Pick<SidecarConfig, 'token' | 'url' | 'toolTimeoutMs'>> & SidecarConfig
   private logLevel: 'normal' | 'verbose' | 'quiet'
   private mcpClient: Client | null = null
   private ws: WebSocket | null = null
   private heartbeatTimer: ReturnType<typeof setInterval> | null = null
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null
+
   private tools: ToolInfo[] = []
   private serverName = ''
   private serverVersion = ''
@@ -70,9 +68,6 @@ export class Sidecar {
     this.config = {
       ...config,
       url: config.url ?? DEFAULT_URL,
-      reconnect: config.reconnect ?? true,
-      reconnectIntervalMs: config.reconnectIntervalMs ?? DEFAULT_RECONNECT_INTERVAL_MS,
-      heartbeatIntervalMs: config.heartbeatIntervalMs ?? DEFAULT_HEARTBEAT_INTERVAL_MS,
       toolTimeoutMs: config.toolTimeoutMs ?? DEFAULT_TOOL_TIMEOUT_MS,
     }
     this.logLevel = config.logLevel ?? 'normal'
@@ -208,15 +203,15 @@ export class Sidecar {
         this.stopHeartbeat()
         this.config.onDisconnect?.()
 
-        if (!this.closed && this.config.reconnect && authenticated) {
+        if (!this.closed && authenticated) {
           if (this.logLevel !== 'quiet') {
-            console.log(`[coop-sidecar] Disconnected. Reconnecting in ${this.config.reconnectIntervalMs}ms...`)
+            console.log(`[coop-sidecar] Disconnected. Reconnecting in ${RECONNECT_INTERVAL_MS}ms...`)
           }
           this.reconnectTimer = setTimeout(() => {
             this.connectWebSocket().catch((err) => {
               this.config.onError?.(err instanceof Error ? err : new Error(String(err)))
             })
-          }, this.config.reconnectIntervalMs)
+          }, RECONNECT_INTERVAL_MS)
         }
       })
 
@@ -282,7 +277,7 @@ export class Sidecar {
       if (this.ws?.readyState === WebSocket.OPEN) {
         this.ws.send(JSON.stringify({ type: 'ping' }))
       }
-    }, this.config.heartbeatIntervalMs)
+    }, HEARTBEAT_INTERVAL_MS)
   }
 
   private stopHeartbeat(): void {

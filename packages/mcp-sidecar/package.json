@@ -1,6 +1,6 @@
 {
   "name": "@coop-tech/mcp-sidecar",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Connect MCP servers to coop.tech as sidecars",
   "type": "module",
   "main": "./dist/index.js",
@@ -18,7 +18,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@modelcontextprotocol/sdk": "1.27.1",
     "@types/ws": "8.18.1",
+    "tsup": "8.5.1",
     "typescript": "5.9.3"
   },
   "keywords": [
